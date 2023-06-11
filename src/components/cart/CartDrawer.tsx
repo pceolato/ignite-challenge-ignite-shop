@@ -1,5 +1,5 @@
 import { X } from "@phosphor-icons/react";
-import { BagContent, DrawerClose, DrawerContent, ItemList } from "../../styles/drawer";
+import { BagContent, CheckoutSummary, DrawerClose, DrawerContainer, DrawerContent, FooterCart, ItemList } from "../../styles/drawer";
 import { useDrawer } from "../../context/DrawerContext";
 import { ProductCart } from "./ProductCart";
 
@@ -12,22 +12,35 @@ export function CartDrawer() {
 
     return (
         <DrawerContent>
-            <DrawerClose onClick={setDrawerClose}>
-                <X size={24} weight="bold" color="#8D8D99"/>
-            </DrawerClose>
-            <BagContent>
-                <h3>Sacola de compras</h3>
+                <DrawerClose onClick={setDrawerClose}>
+                    <X size={24} weight="bold" color="#8D8D99" />
+                </DrawerClose>
+            <DrawerContainer>
+                <BagContent>
+                    <h3>Sacola de compras</h3>
 
-                <ItemList>
-                    <ProductCart />
-                </ItemList>
+                    <ItemList>
+                        <ProductCart />
+                        <ProductCart />
+                        <ProductCart />
+                    </ItemList>
 
-                <div>
+                </BagContent>
+                <FooterCart>
+                    <CheckoutSummary>
+                        <div>
+                            <span>Quantidade</span>
+                            <span>3 itens</span>
+                        </div>
+                        <div>
+                            <strong>Valor total</strong>
+                            <strong>R$ 270,00</strong>
+                        </div>
+                    </CheckoutSummary>
 
-                </div>
-
-                <button></button>
-            </BagContent>
+                    <button>Finalizar compra</button>
+                </FooterCart>
+            </DrawerContainer>
         </DrawerContent>
     )
 }

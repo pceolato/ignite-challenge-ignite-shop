@@ -1,6 +1,7 @@
 import { styled } from "@stitches/react";
+import * as Portal from '@radix-ui/react-portal';
 
-export const DrawerContent = styled('div', {
+export const DrawerContent = styled(Portal.Root, {
     height: '100vh',
     position: 'fixed',
     zIndex: '1000',
@@ -9,6 +10,11 @@ export const DrawerContent = styled('div', {
     right: 0,
     bottom: 0,
     background: '$gray800'
+})
+
+export const DrawerContainer = styled('div', {
+    position: 'relative',
+    height: '100%',
 })
 
 export const DrawerClose = styled('button', {
@@ -35,7 +41,19 @@ export const ItemList = styled('div', {
     marginTop: '2rem',
     display: 'flex',
     flexDirection: 'column',
-    gap: '1.5rem'
+    gap: '1.5rem',
+
+    maxHeight: '16.625rem',
+    overflowY: 'auto',
+
+  '&::-webkit-scrollbar': {
+    width: '4px',
+  },
+
+  '&::-webkit-scrollbar-thumb': {
+    background: 'gray',
+    borderRadius: '4px',
+  },
 })
 
 export const ProductContainer = styled('div', {
@@ -88,5 +106,43 @@ export const InfoProduct = styled('div', {
         '&:hover': {
             color: '$green300'
         }
+    }
+})
+
+export const FooterCart = styled('footer', {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '3.125rem',
+    position: 'absolute',
+    bottom: '6rem',
+    width: '100%',
+    paddingInline: '3rem',
+
+    'button': {
+        width: '100%',
+        paddingBlock: '1.25rem',
+        borderRadius: '8px',
+        fontWeight: 'bold',
+        fontSize: '1.125rem',
+        color: '$white',
+        backgroundColor: '$green500',
+        border: 'none',
+        cursor: 'pointer',
+
+        '&:hover': {
+            backgroundColor: '$green300'
+        }
+    }
+})
+
+export const CheckoutSummary = styled('div', {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.5rem',
+
+    'div': {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
     }
 })
