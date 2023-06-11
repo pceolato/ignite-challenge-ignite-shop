@@ -1,12 +1,13 @@
 import { ReactNode, createContext, useContext, useState } from "react";
-import { DrawerContent } from "../styles/drawer";
+import { CartDrawer } from "../components/cart/CartDrawer";
 
 interface DrawerContextProviderProps {
     children: ReactNode
 }
 
 interface DrawerContextProps {
-    handleSetDrawerIsOpen:() => void;
+    drawerIsOpen: boolean
+    handleSetDrawer:(value: boolean) => void;
 }
 
 const DrawerContext = createContext({} as DrawerContextProps)
@@ -14,18 +15,15 @@ const DrawerContext = createContext({} as DrawerContextProps)
 export function DrawerContextProvider({ children }: DrawerContextProviderProps) {
     const [ drawerIsOpen, setDrawerIsOpen ] = useState(false)
 
-    function handleSetDrawerIsOpen() {
-        console.log('teste')
-        const currentDrawerState = drawerIsOpen
-        setDrawerIsOpen(!currentDrawerState)
+    function handleSetDrawer(value: boolean) {
+        setDrawerIsOpen(value)
     }
 
     return (
-        <DrawerContext.Provider value={{handleSetDrawerIsOpen}}>
+        <DrawerContext.Provider value={{ drawerIsOpen, handleSetDrawer}}>
             {
                 drawerIsOpen && (
-                    <DrawerContent>
-                    </DrawerContent>
+                    <CartDrawer />
                 )
             }
             {children}
