@@ -3,23 +3,23 @@ import Head from "next/head"
 
 import { useKeenSlider } from 'keen-slider/react'
 
-import { HomeContainer, Product } from "../styles/pages/home"
+import { ButtonAddToCart, HomeContainer, Product } from "../styles/pages/home"
 
 import 'keen-slider/keen-slider.min.css'
 import { stripe } from "../lib/stripe"
 import { GetStaticProps } from "next"
 import Stripe from "stripe"
+import { Bag } from "@phosphor-icons/react"
+import { useCart } from "../hooks/useCart"
+import { IProduct } from "../context/CartContext"
+import { MouseEvent } from "react"
 
 interface HomeProps {
-  products: {
-    id: string
-    name: string
-    imageUrl: string
-    price: string
-  }[]
+  products: IProduct[]
 }
 
 export default function Home({ products }: HomeProps) {
+  const { addToCart, checkIfItemAlreadyExists } = useCart()
   const [sliderRef] = useKeenSlider({
     mode: 'free-snap',
     slides: {
@@ -28,6 +28,11 @@ export default function Home({ products }: HomeProps) {
       spacing: 48
     }
   })
+
+  function handleAddToCard(e: MouseEvent<HTMLButtonElement>, product: IProduct) {
+    e.preventDefault();
+    addToCart(product)
+  }
 
   return (
     <>
@@ -48,8 +53,16 @@ export default function Home({ products }: HomeProps) {
               <Image src={product.imageUrl} width={520} height={480} alt="" />
 
               <footer>
-                <strong>{product.name}</strong>
-                <span>{product.price}</span>
+                <div>
+                  <strong>{product.name}</strong>
+                  <span>{product.price}</span>
+                </div>
+                <ButtonAddToCart
+                  disabled={checkIfItemAlreadyExists(product.id)}
+                  onClick={(e) => handleAddToCard(e, product)}
+                >
+                  <Bag size={32} weight="bold" />
+                </ButtonAddToCart>
               </footer>
             </Product>
           ))
@@ -76,6 +89,8 @@ export const getStaticProps: GetStaticProps = async () => {
         style: 'currency',
         currency: 'BRL'
       }).format(price.unit_amount / 100),
+      numberPrice: price.unit_amount / 100,
+      defaultPrice: price.id
     }
   })
 
