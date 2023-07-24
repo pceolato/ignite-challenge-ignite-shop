@@ -91,6 +91,7 @@ export const ButtonAddToCart = styled('button', {
             true: {
                 pointerEvents: 'none',
                 opacity: 0.5,
+                cursor: 'not-allowed',
                 '&:hover': {
                     backgroundColor: '$green500',
                 },
