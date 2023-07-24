@@ -25,4 +25,30 @@ export const ButtonBag = styled('button', {
     background: '$gray800',
     color: '$gray500',
     cursor: 'pointer',
-}) 
+    position: 'relative',
+})
+
+export const CountBag = styled('div', {
+    background: '$gray900',
+    color: '$white',
+    padding: '0.25rem',
+    borderRadius: '50%',
+    position: 'absolute',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    'z-index': 1,
+
+    top: 'calc(0px - 1rem)',
+    right: 'calc(0px - 1rem)',
+
+    span: {
+        width: '1.5rem',
+        height: '1.5rem',
+        background: '$green500',
+        borderRadius: '50%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+})
