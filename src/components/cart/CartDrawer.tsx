@@ -3,11 +3,15 @@ import { BagContent, CheckoutSummary, DrawerClose, DrawerContainer, DrawerConten
 import { useDrawer } from "../../context/DrawerContext";
 import { ProductCart } from "./ProductCart";
 import { useCart } from "../../hooks/useCart";
+import { useState } from "react";
+import axios from "axios";
 
 export function CartDrawer() {
     const { handleSetDrawer } = useDrawer()
     const { cartItems, cartTotal } = useCart()
     const cartQuantity = cartItems.length
+
+    const [ isCreatingCheckoutSession, setIsCreatingCheckoutSession ] = useState(false)
 
     const formattedCartTotal = new Intl.NumberFormat('pt-br', {
         style: 'currency',
@@ -16,6 +20,22 @@ export function CartDrawer() {
 
     function setDrawerClose() {
         handleSetDrawer(false)
+    }
+
+    async function handleCheckout() {
+        try {
+            setIsCreatingCheckoutSession(true)
+
+            const response = await axios.post('/api/checkout', {
+                products: cartItems
+            })
+
+            const { checkoutUrl } = response.data;
+            window.location.href = checkoutUrl
+        } catch(err) {
+            setIsCreatingCheckoutSession(false)
+            alert('Falha ao redirecionar para o checkout!!')
+        }
     }
 
     return (
@@ -56,7 +76,12 @@ export function CartDrawer() {
                         </div>
                     </CheckoutSummary>
 
-                    <button>Finalizar compra</button>
+                    <button
+                        onClick={handleCheckout}
+                        disabled={isCreatingCheckoutSession || cartQuantity <= 0}
+                    >
+                        Finalizar compra
+                    </button>
                 </FooterCart>
             </DrawerContainer>
         </DrawerContent>
